@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "catalog"
+version = "0.1.0"
+description = ""
+authors = ["bbt-t <zlukcss@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+django = "^4.2.4"
+django-phonenumber-field = {extras = ["phonenumberslite"], version = "^7.1.0"}
+pillow = "^10.0.0"
+psycopg = "^3.1.10"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
