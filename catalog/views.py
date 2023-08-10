@@ -10,7 +10,8 @@ class HomePageView(View):
     """
     index render.
     """
-    template_name = '../templates/catalog/home.html'
+
+    template_name = "../templates/catalog/home.html"
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name)
@@ -20,7 +21,8 @@ class ContactsView(View):
     """
     contacts route render and add info to DB.
     """
-    template_name = '../templates/catalog/contacts.html'
+
+    template_name = "../templates/catalog/contacts.html"
 
     def post(self, request, *args, **kwargs):
         """

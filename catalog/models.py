@@ -6,6 +6,7 @@ class Feedback(models.Model):
     """
     Model for saving messages from users to DB.
     """
+
     username = models.CharField(
         max_length=64,
         help_text="The name entered by the user when sending the msg.",
@@ -44,7 +45,7 @@ class Product(models.Model):
     description = models.CharField(max_length=512)
     price = models.PositiveBigIntegerField(blank=True, null=True)
     image_preview = models.ImageField(
-        upload_to='images/',
+        upload_to="images/",
         help_text="Images are here -> images/",
         null=True,
         blank=True,
@@ -52,7 +53,7 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category,
         on_delete=models.PROTECT,
-        help_text="This is a foreign key of the category"
+        help_text="This is a foreign key of the category",
     )
     create_at = models.DateTimeField(
         editable=False,

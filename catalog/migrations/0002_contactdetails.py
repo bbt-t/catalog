@@ -4,22 +4,29 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('catalog', '0001_initial'),
+        ("catalog", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ContactDetails',
+            name="ContactDetails",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('country', models.CharField(max_length=64)),
-                ('inn', models.SlugField(max_length=64)),
-                ('address', models.CharField(max_length=256)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("country", models.CharField(max_length=64)),
+                ("inn", models.SlugField(max_length=64)),
+                ("address", models.CharField(max_length=256)),
             ],
             options={
-                'db_table_comment': 'Contact details',
+                "db_table_comment": "Contact details",
             },
         ),
     ]

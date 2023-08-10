@@ -6,51 +6,129 @@ import phonenumber_field.modelfields
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(help_text='Category name', max_length=128)),
-                ('description', models.CharField(help_text='Category description', max_length=512)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(help_text="Category name", max_length=128)),
+                (
+                    "description",
+                    models.CharField(help_text="Category description", max_length=512),
+                ),
             ],
             options={
-                'db_table_comment': 'Product categories',
+                "db_table_comment": "Product categories",
             },
         ),
         migrations.CreateModel(
-            name='Feedback',
+            name="Feedback",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('username', models.CharField(help_text='The name entered by the user when sending the msg.', max_length=64)),
-                ('phone', phonenumber_field.modelfields.PhoneNumberField(db_index=True, help_text='The phone number entered by the user when sending the msg.', max_length=128, region=None)),
-                ('message', models.TextField(help_text='The text entered by the user when sending the msg.', max_length=512)),
-                ('create_at', models.DateTimeField(auto_now_add=True, db_comment='Date and time when the question was created')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "username",
+                    models.CharField(
+                        help_text="The name entered by the user when sending the msg.",
+                        max_length=64,
+                    ),
+                ),
+                (
+                    "phone",
+                    phonenumber_field.modelfields.PhoneNumberField(
+                        db_index=True,
+                        help_text="The phone number entered by the user when sending the msg.",
+                        max_length=128,
+                        region=None,
+                    ),
+                ),
+                (
+                    "message",
+                    models.TextField(
+                        help_text="The text entered by the user when sending the msg.",
+                        max_length=512,
+                    ),
+                ),
+                (
+                    "create_at",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        db_comment="Date and time when the question was created",
+                    ),
+                ),
             ],
             options={
-                'db_table_comment': 'Users feedback',
+                "db_table_comment": "Users feedback",
             },
         ),
         migrations.CreateModel(
-            name='Product',
+            name="Product",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=128)),
-                ('description', models.CharField(max_length=512)),
-                ('price', models.PositiveBigIntegerField(blank=True, null=True)),
-                ('image_preview', models.ImageField(blank=True, help_text='Images are here -> images/', null=True, upload_to='images/')),
-                ('create_at', models.DateTimeField(auto_now_add=True, db_comment='Date and time when the product was created')),
-                ('update_at', models.DateTimeField(auto_now=True, db_comment='Date and time when the product was updated')),
-                ('category', models.ForeignKey(help_text='This is a foreign key of the category', on_delete=django.db.models.deletion.PROTECT, to='catalog.category')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=128)),
+                ("description", models.CharField(max_length=512)),
+                ("price", models.PositiveBigIntegerField(blank=True, null=True)),
+                (
+                    "image_preview",
+                    models.ImageField(
+                        blank=True,
+                        help_text="Images are here -> images/",
+                        null=True,
+                        upload_to="images/",
+                    ),
+                ),
+                (
+                    "create_at",
+                    models.DateTimeField(
+                        auto_now_add=True,
+                        db_comment="Date and time when the product was created",
+                    ),
+                ),
+                (
+                    "update_at",
+                    models.DateTimeField(
+                        auto_now=True,
+                        db_comment="Date and time when the product was updated",
+                    ),
+                ),
+                (
+                    "category",
+                    models.ForeignKey(
+                        help_text="This is a foreign key of the category",
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="catalog.category",
+                    ),
+                ),
             ],
             options={
-                'db_table_comment': 'Goods',
+                "db_table_comment": "Goods",
             },
         ),
     ]

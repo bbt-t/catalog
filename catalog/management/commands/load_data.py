@@ -7,6 +7,7 @@ class Command(BaseCommand):
     """
     Load data to DB.
     """
+
     def handle(self, *args, **options):
         call_command(
             "loaddata",

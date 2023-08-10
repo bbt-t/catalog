@@ -7,6 +7,7 @@ class Command(BaseCommand):
     """
     Dump data from DB.
     """
+
     def handle(self, *args, **options):
         call_command(
             "dumpdata",
