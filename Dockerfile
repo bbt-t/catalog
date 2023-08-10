@@ -16,6 +16,5 @@ COPY --from=requirements-stage /tmp/requirements.txt /app/requirements.txt
 
 RUN pip install --no-cache-dir --upgrade -r /app/requirements.txt
 RUN apt-get -q update && apt install wait-for-it
-COPY . .
 
-#CMD ["python", "manage.py", "runserver", "0.0.0.0:8051"]
+COPY . .
