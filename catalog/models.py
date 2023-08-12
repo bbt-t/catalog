@@ -43,7 +43,7 @@ class Category(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f"Category: {self.name}"
 
     class Meta:
         db_table_comment = "Product categories"
@@ -88,7 +88,7 @@ class Product(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f"Product: {self.name}"
 
     class Meta:
         db_table_comment = "Goods"
