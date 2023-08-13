@@ -2,19 +2,32 @@ from logging import warning as log
 
 from django.shortcuts import render
 from django.views import View
+from django.views.generic import TemplateView
 
-from catalog.models import Feedback
+from catalog.models import Feedback, Product
 
 
-class HomePageView(View):
+class HomePageView(TemplateView):
     """
-    index render.
+    Homepage render.
     """
 
-    template_name = "../templates/catalog/home.html"
+    template_name = "../templates/catalog/home_base.html"
 
-    def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["objects"] = Product.objects.all()
+        return context
+
+
+class AboutProduct(TemplateView):
+    template_name = "../templates/catalog/show_product.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context["product_detail"] = Product.objects.get(pk=self.kwargs["id"])
+        return context
 
 
 class ContactsView(View):
@@ -22,7 +35,7 @@ class ContactsView(View):
     contacts route render and add info to DB.
     """
 
-    template_name = "../templates/catalog/contacts.html"
+    template_name = "../templates/catalog/contact_base.html"
 
     def post(self, request, *args, **kwargs):
         """

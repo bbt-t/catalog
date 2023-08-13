@@ -28,7 +28,7 @@ class Feedback(models.Model):
 
     class Meta:
         db_table_comment = "Users feedback"
-        ordering = "create_at",
+        ordering = ("create_at",)
 
 
 class Category(models.Model):
@@ -94,7 +94,7 @@ class Product(models.Model):
         db_table_comment = "Goods"
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
-        ordering = "price",
+        ordering = ("price",)
 
 
 class ContactDetails(models.Model):

@@ -1,0 +1,25 @@
+{% extends "catalog/base.html" %}
+{% load media_path %}
+
+{% block pricing-header %}
+    <h1 class="display-4">Skystore</h1>
+    <p class="lead">подробнее о товаре</p>
+{% endblock %}
+
+{% block content %}
+    <div class="card text-center">
+        <div class="card-header">
+            {{ product_detail.category }}
+        </div>
+        <div class="card-body">
+            <img src="{% media_path product_detail.image_preview %}" class="card-img-top" alt="obj.name">
+
+            <h5 class="card-title">{{ product_detail.name }}</h5>
+            <p class="card-text">{{ product_detail.description }}</p>
+            <a href="#" class="btn btn-primary">Купить!</a>
+        </div>
+        <div class="card-footer text-muted">
+            {{ product_detail.update_at }}
+        </div>
+    </div>
+{% endblock %}
