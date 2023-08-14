@@ -23,7 +23,7 @@ class Feedback(models.Model):
         editable=False,
         auto_now_add=True,
         db_comment="Date and time when the question was created",
-        verbose_name="Создано",
+        verbose_name="Дата создания",
     )
 
     class Meta:
@@ -79,7 +79,7 @@ class Product(models.Model):
         editable=False,
         auto_now_add=True,
         db_comment="Date and time when the product was created",
-        verbose_name="Создано",
+        verbose_name="Дата создания",
     )
     update_at = models.DateTimeField(
         auto_now=True,
@@ -109,3 +109,29 @@ class ContactDetails(models.Model):
         db_table_comment = "Contact details"
         verbose_name = "Контакты"
         verbose_name_plural = "Контакты"
+
+
+class BlogArticle(models.Model):
+    title = models.CharField(max_length=64, verbose_name="Заголовок")
+    slug = models.SlugField()
+    content = models.CharField(max_length=1024, verbose_name="Контент")
+    image_preview = models.ImageField(
+        upload_to="images/",
+        help_text="Images are here -> images/",
+        null=True,
+        blank=True,
+        verbose_name="Изображение",
+    )
+    is_published = models.BooleanField(verbose_name="Опубликовано?")
+    views_count = models.PositiveIntegerField(verbose_name="Количество просмотров")
+    create_at = models.DateTimeField(
+        editable=False,
+        auto_now_add=True,
+        db_comment="Date and time when the post was created",
+        verbose_name="Дата создания",
+    )
+
+    class Meta:
+        db_table_comment = "Blog content"
+        verbose_name = "Пост"
+        verbose_name_plural = "Посты"
