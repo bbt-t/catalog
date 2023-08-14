@@ -7,6 +7,8 @@ from django.views import View
 from django.views.generic import TemplateView
 
 from catalog.models import Feedback, Product, ContactDetails, Category
+from catalog.services.crud import get_all_products, get_product_by_param, save_feedback, get_contact_details, \
+    get_category_by_param, save_product, get_all_categories
 
 
 class HomePageView(TemplateView):
@@ -18,7 +20,7 @@ class HomePageView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["objects"] = Product.objects.all()
+        context["objects"] = get_all_products()
         return context
 
 
@@ -28,7 +30,10 @@ class AboutProduct(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context["product_detail"] = Product.objects.get(pk=self.kwargs["id"])
+        param = {
+            "pk":self.kwargs["id"],
+        }
+        context["product_detail"] = get_product_by_param(param)
         return context
 
 
@@ -46,8 +51,12 @@ class ContactsView(View):
         _, username, phone, message = request.POST.values()
         log("Cообщение от {}, номер телефона: {} - {}".format(username, phone, message))
 
-        new_entry = Feedback(username=username, phone=phone, message=message)
-        new_entry.save()
+        param = {
+            "username": username,
+            "phone": phone,
+            "message": message,
+        }
+        save_feedback(param)
 
         return render(request, self.template_name)
 
@@ -56,7 +65,7 @@ class ContactsView(View):
         GET request.
         """
         context = {
-            "contacts": ContactDetails.objects.get(),
+            "contacts": get_contact_details(),
         }
         return render(request, self.template_name, context)
 
@@ -69,19 +78,22 @@ class AddProduct(View):
         Get info for save a new Product.
         """
         _, name, category_id, price, description = request.POST.values()
-        selected_category = Category.objects.get(pk=category_id)
+        param = {
+            "pk": category_id,
+        }
+        selected_category = get_category_by_param(param)
         try:
-            new_entry = Product(
-                category=selected_category,
-                name=name,
-                description=description,
-                price=price,
-                image_preview=request.FILES.getlist("product_image")[0],
-            )
+            param_save = {
+                "category": selected_category,
+                "name":name,
+                "description": description,
+                "price": price,
+                "image_preview": request.FILES.getlist("product_image")[0],
+            }
+            save_product(param_save)
         except Exception as e:
             print(e)
         else:
-            new_entry.save()
             return HttpResponseRedirect(reverse("ok"))
 
         return render(request, self.template_name)
@@ -91,7 +103,7 @@ class AddProduct(View):
         GET request.
         """
         context = {
-            "categories": Category.objects.all(),
+            "categories": get_all_categories(),
         }
         return render(request, self.template_name, context)
 
