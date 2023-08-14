@@ -1,0 +1,45 @@
+{% extends "catalog/base.html" %}
+
+{% block pricing-header %}
+    <h1 class="display-4">Добавляем продукт</h1>
+{% endblock %}
+
+{% block content %}
+    <div class="form_container_center">
+    <div class="col-lg-3 col-md-6 col-sm-12">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal">Свяжитесь с нами</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" action="" class="form-floating" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <input type="text" name="name" class="form-control" id="name" placeholder="Название товара"
+                               required>
+                    </div>
+                    <select class="form-select" name="selected_category">
+                        <option selected>выбери категорию</option>
+                        {% for cat in categories %}
+                            <option value={{ cat.pk }}>{{ cat }}</option>
+                        {% endfor %}
+                    </select>
+                    <div class="mb-3">
+                        <input name="product_image" class="form-control" type="file" id="formFileMultiple" multiple>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="price" class="form-control" id="price"
+                               placeholder="Стоимость товара" required>
+                    </div>
+                    <div class="mb-3">
+                        <textarea name="description" class="form-control" id="description"
+                                  placeholder="Описание товара" required></textarea>
+                    </div>
+                    <input type="submit" value="сохранить"/>
+                </form>
+            </div>
+        </div>
+    </div>
+    </div>
+
+{% endblock %}
