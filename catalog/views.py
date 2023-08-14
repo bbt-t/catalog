@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import TemplateView
 
-from catalog.models import Feedback, Product
+from catalog.models import Feedback, Product, ContactDetails
 
 
 class HomePageView(TemplateView):
@@ -53,4 +53,7 @@ class ContactsView(View):
         """
         GET request.
         """
-        return render(request, self.template_name)
+        context = {
+            "contacts": ContactDetails.objects.get(),
+        }
+        return render(request, self.template_name, context)

@@ -98,8 +98,8 @@ class Product(models.Model):
 
 
 class ContactDetails(models.Model):
-    country = models.CharField(max_length=64, verbose_name="Номер телефона")
-    inn = models.SlugField(max_length=64, verbose_name="ИНН")
+    country = models.CharField(max_length=64, verbose_name="Страна")
+    inn = models.CharField(max_length=64, verbose_name="ИНН")
     address = models.CharField(max_length=256, verbose_name="Адрес")
 
     def __str__(self):
@@ -108,3 +108,4 @@ class ContactDetails(models.Model):
     class Meta:
         db_table_comment = "Contact details"
         verbose_name = "Контакты"
+        verbose_name_plural = "Контакты"
