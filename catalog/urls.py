@@ -5,7 +5,8 @@ from catalog.views import (
     ContactsPageView,
     AboutProductPageDetailView,
     AddProductPageView,
-    accept_add_product, BlogPageListView, BlogPostPageDetailView, BlogPostCreate, BlogPostUpdate
+    accept_add, BlogPageListView, BlogPostPageDetailView, BlogPostCreateView, BlogPostUpdateView, accept_delete,
+    BlogPostPageDeleteView
 )
 
 urlpatterns = [
@@ -14,10 +15,12 @@ urlpatterns = [
     path("contacts/", ContactsPageView.as_view(), name="contacts"),
     path("add/", AddProductPageView.as_view(), name="add_product"),
 
-    path("ok", accept_add_product, name="ok"),
+    path("ok", accept_add, name="ok"),
+    path("deleted", accept_delete, name="success_deleted"),
 
     path("blog/", BlogPageListView.as_view(), name="blog_page"),
+    path("blog/add/", BlogPostCreateView.as_view(), name="create_post"),
     path("blog/<int:id>/", BlogPostPageDetailView.as_view(), name="post"),
-    path("blog/add/", BlogPostCreate.as_view(), name="create_post"),
-    path("blog/edit/<int:id>/", BlogPostUpdate.as_view(), name="edit_post"),
+    path("blog/edit/<int:id>/", BlogPostUpdateView.as_view(), name="edit_post"),
+    path("blog/del/<int:id>/", BlogPostPageDeleteView.as_view(), name="del_post"),
 ]

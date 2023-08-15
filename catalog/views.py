@@ -6,7 +6,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from catalog.models import Product, BlogArticle
 from catalog.services.crud import (
@@ -14,14 +14,27 @@ from catalog.services.crud import (
 )
 
 
-def accept_add_product(request):
+def accept_delete(request):
     """
-    If the prod addition was successful.
+    If the del obj was successful.
+    """
+    return render(request, "../templates/catalog/accept_del.html")
+
+
+def accept_add(request):
+    """
+    If the new obj addition was successful.
     """
     return render(request, "../templates/catalog/accept_add.html")
 
 
-class BlogPostCreate(CreateView):
+class BlogPostPageDeleteView(DeleteView):
+    model = BlogArticle
+    success_url = reverse_lazy("success_deleted")
+    pk_url_kwarg = "id"
+
+
+class BlogPostCreateView(CreateView):
     model = BlogArticle
     fields = "title", "content", "image_preview", "is_published"
     success_url = reverse_lazy("ok")
@@ -34,7 +47,7 @@ class BlogPostCreate(CreateView):
         return super().form_valid(form)
 
 
-class BlogPostUpdate(UpdateView):
+class BlogPostUpdateView(UpdateView):
     model = BlogArticle
     fields = "title", "content", "image_preview", "is_published"
     pk_url_kwarg = "id"

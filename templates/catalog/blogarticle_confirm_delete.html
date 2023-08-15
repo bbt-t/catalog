@@ -1,0 +1,13 @@
+{% extends "catalog/base.html" %}
+
+{% block pricing-header %}
+    <h1 class="display-4">Удаляем пост</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">удалить</button>
+    </form>
+{% endblock %}
