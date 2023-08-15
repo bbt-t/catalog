@@ -16,7 +16,7 @@
 
             <h5 class="card-title">{{ blog_post.title }}</h5>
             <p class="card-text">{{ blog_post.content }}</p>
-
+            <a href="{% url 'edit_post' id=blog_post.pk %}" class="btn btn-dark">редактировать</a>
         </div>
         <div class="card-footer text-muted">
             <p>Просмотров: {{ blog_post.views_count }}</p>

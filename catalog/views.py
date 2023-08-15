@@ -4,8 +4,9 @@ from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.utils.text import slugify
 from django.views import View
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from catalog.models import Product, BlogArticle
 from catalog.services.crud import (
@@ -18,6 +19,35 @@ def accept_add_product(request):
     If the prod addition was successful.
     """
     return render(request, "../templates/catalog/accept_add.html")
+
+
+class BlogPostCreate(CreateView):
+    model = BlogArticle
+    fields = "title", "content", "image_preview", "is_published"
+    success_url = reverse_lazy("ok")
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_entry = form.save()
+            new_entry.slug = slugify(new_entry.title)
+            new_entry.save()
+        return super().form_valid(form)
+
+
+class BlogPostUpdate(UpdateView):
+    model = BlogArticle
+    fields = "title", "content", "image_preview", "is_published"
+    pk_url_kwarg = "id"
+
+    def form_valid(self, form):
+        if form.is_valid():
+            new_entry = form.save()
+            new_entry.slug = slugify(new_entry.title)
+            new_entry.save()
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy("post", args=(self.kwargs.get("id"),))
 
 
 class HomePageListView(ListView):

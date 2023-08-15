@@ -1,0 +1,13 @@
+{% extends "catalog/base.html" %}
+
+{% block pricing-header %}
+    <h1 class="display-4">Добавляем пост</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">создать</button>
+    </form>
+{% endblock %}

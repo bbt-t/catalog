@@ -113,7 +113,7 @@ class ContactDetails(models.Model):
 
 class BlogArticle(models.Model):
     title = models.CharField(max_length=64, verbose_name="Заголовок")
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(max_length=128, null=True, blank=True)
     content = models.CharField(max_length=1024, verbose_name="Контент")
     image_preview = models.ImageField(
         upload_to="images/",
