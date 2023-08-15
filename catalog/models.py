@@ -113,7 +113,7 @@ class ContactDetails(models.Model):
 
 class BlogArticle(models.Model):
     title = models.CharField(max_length=64, verbose_name="Заголовок")
-    slug = models.SlugField()
+    slug = models.SlugField(null=True, blank=True)
     content = models.CharField(max_length=1024, verbose_name="Контент")
     image_preview = models.ImageField(
         upload_to="images/",
@@ -122,8 +122,8 @@ class BlogArticle(models.Model):
         blank=True,
         verbose_name="Изображение",
     )
-    is_published = models.BooleanField(verbose_name="Опубликовано?")
-    views_count = models.PositiveIntegerField(verbose_name="Количество просмотров", default=0)
+    is_published = models.BooleanField(default=True, verbose_name="Опубликовано?")
+    views_count = models.PositiveIntegerField(default=0, verbose_name="Количество просмотров")
     create_at = models.DateTimeField(
         editable=False,
         auto_now_add=True,

@@ -1,0 +1,26 @@
+{% extends "catalog/base.html" %}
+{% load media_path %}
+
+{% block pricing-header %}
+    <h1 class="display-4">Skystore Блог</h1>
+    <p class="lead">Полный пост</p>
+{% endblock %}
+
+{% block content %}
+    <div class="card text-center">
+        <div class="card-header">
+            {{ blog_post.title }}
+        </div>
+        <div class="card-body">
+            <img src="{% media_path blog_post.image_preview %}" class="card-img-top" alt="blog_post.name">
+
+            <h5 class="card-title">{{ blog_post.title }}</h5>
+            <p class="card-text">{{ blog_post.content }}</p>
+
+        </div>
+        <div class="card-footer text-muted">
+            <p>Просмотров: {{ blog_post.views_count }}</p>
+            <p>Опубликовано: {{ blog_post.create_at }}</p>
+        </div>
+    </div>
+{% endblock %}

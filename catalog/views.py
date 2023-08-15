@@ -1,5 +1,6 @@
 from logging import warning as log
 
+from django.core.mail import send_mail
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -7,8 +8,16 @@ from django.views import View
 from django.views.generic import ListView, DetailView
 
 from catalog.models import Product, BlogArticle
-from catalog.services.crud import save_feedback, get_contact_details, \
-    get_category_by_param, save_product, get_all_categories
+from catalog.services.crud import (
+    save_feedback, get_contact_details, get_category_by_param, save_product, get_all_categories
+)
+
+
+def accept_add_product(request):
+    """
+    If the prod addition was successful.
+    """
+    return render(request, "../templates/catalog/accept_add.html")
 
 
 class HomePageListView(ListView):
@@ -17,6 +26,39 @@ class HomePageListView(ListView):
     """
     model = Product
     context_object_name = "product_items"
+
+
+class BlogPageListView(ListView):
+    model = BlogArticle
+    context_object_name = "blog_posts"
+
+    def get_queryset(self):
+        """
+        Return only is_published = True
+        """
+        q = super().get_queryset()
+        return q.filter(is_published=True)
+
+
+class BlogPostPageDetailView(DetailView):
+    model = BlogArticle
+    context_object_name = "blog_post"
+    pk_url_kwarg = "id"
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+
+        obj.views_count += 1
+        obj.save()
+        if obj.views_count == 100:
+            send_mail(
+                'Поздравление',
+                'УРА! УРА! у вас более 100 просмотров!',
+                'wrusacc@yandex.ru',
+                ['zlukcss@gmail.com'],
+                fail_silently=False,
+            )
+        return obj
 
 
 class AboutProductPageDetailView(DetailView):
@@ -94,15 +136,3 @@ class AddProductPageView(View):
             "categories": get_all_categories(),
         }
         return render(request, self.template_name, context)
-
-
-class BlogPageListView(ListView):
-    model = BlogArticle
-    context_object_name = "blog_posts"
-
-
-def accept_add_product(request):
-    """
-    If the prod addition was successful.
-    """
-    return render(request, "../templates/catalog/accept_add.html")

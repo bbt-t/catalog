@@ -1,18 +1,23 @@
 {% extends "catalog/base.html" %}
+{% load media_path %}
 
 {% block pricing-header %}
     <h1 class="display-4">Добро пожаловать в наш Блог</h1>
 {% endblock %}
 
 {% block content %}
-    {% for post in blog_posts %}
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">post.title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="btn btn-dark">Читать всё</a>
-        </div>
+    <div class="centered-row">
+        {% for post in blog_posts %}
+            <div class="card" style="width: 18rem;">
+                <div class="image-container">
+                    <img class="card-img-top" src="{% media_path post.image_preview %}" alt="{{ post.title }}">
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ post.title }}</h5>
+                    <p class="card-text">{{ post.content | truncatewords:15 }}</p>
+                    <a href="{% url 'post' id=post.pk %}" class="btn btn-dark">Читать всё</a>
+                </div>
+            </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 {% endblock %}
