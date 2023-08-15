@@ -1,4 +1,4 @@
-from catalog.models import Product, Category, ContactDetails, Feedback
+from catalog.models import Product, Category, ContactDetails, Feedback, BlogArticle
 
 
 def get_product_by_param(param: dict):
@@ -29,3 +29,8 @@ def save_feedback(params: dict):
 def save_product(params: dict):
     new_entry = Product(**params)
     new_entry.save()
+
+
+def get_all_posts():
+    return BlogArticle.objects.all()
+

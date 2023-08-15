@@ -123,13 +123,16 @@ class BlogArticle(models.Model):
         verbose_name="Изображение",
     )
     is_published = models.BooleanField(verbose_name="Опубликовано?")
-    views_count = models.PositiveIntegerField(verbose_name="Количество просмотров")
+    views_count = models.PositiveIntegerField(verbose_name="Количество просмотров", default=0)
     create_at = models.DateTimeField(
         editable=False,
         auto_now_add=True,
         db_comment="Date and time when the post was created",
         verbose_name="Дата создания",
     )
+
+    def __str__(self):
+        return self.title
 
     class Meta:
         db_table_comment = "Blog content"

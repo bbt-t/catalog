@@ -4,45 +4,41 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
-from catalog.models import Feedback, Product, ContactDetails, Category
-from catalog.services.crud import get_all_products, get_product_by_param, save_feedback, get_contact_details, \
+from catalog.models import Product, BlogArticle
+from catalog.services.crud import get_product_by_param, save_feedback, get_contact_details, \
     get_category_by_param, save_product, get_all_categories
 
 
-class HomePageView(TemplateView):
+class HomePageListView(ListView):
     """
     Homepage render.
     """
-
-    template_name = "../templates/catalog/home_base.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["objects"] = get_all_products()
-        return context
+    model = Product
+    template_name = "../templates/catalog/home.html"
+    context_object_name = "product_items"
 
 
-class AboutProduct(TemplateView):
+class AboutProductPageTemplateView(TemplateView):
     template_name = "../templates/catalog/show_product.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         param = {
-            "pk":self.kwargs["id"],
+            "pk": self.kwargs["id"],
         }
         context["product_detail"] = get_product_by_param(param)
         return context
 
 
-class ContactsView(View):
+class ContactsPageView(View):
     """
     contacts route render and add info to DB.
     """
 
-    template_name = "../templates/catalog/contact_base.html"
+    template_name = "../templates/catalog/contact.html"
 
     def post(self, request, *args, **kwargs):
         """
@@ -70,7 +66,7 @@ class ContactsView(View):
         return render(request, self.template_name, context)
 
 
-class AddProduct(View):
+class AddProductPageView(View):
     template_name = "../templates/catalog/add_product.html"
 
     def post(self, request, *args, **kwargs):
@@ -106,6 +102,12 @@ class AddProduct(View):
             "categories": get_all_categories(),
         }
         return render(request, self.template_name, context)
+
+
+class BlogPage(TemplateView):
+    model = BlogArticle
+    template_name = "../templates/catalog/blog.html"
+    context_object_name = "blog_posts"
 
 
 def accept_add_product(request):
