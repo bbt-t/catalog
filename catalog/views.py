@@ -2,12 +2,12 @@ from logging import warning as log
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
+from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import TemplateView, ListView
+from django.views.generic import ListView, DetailView
 
 from catalog.models import Product, BlogArticle
-from catalog.services.crud import get_product_by_param, save_feedback, get_contact_details, \
+from catalog.services.crud import save_feedback, get_contact_details, \
     get_category_by_param, save_product, get_all_categories
 
 
@@ -16,21 +16,13 @@ class HomePageListView(ListView):
     Homepage render.
     """
     model = Product
-    template_name = "../templates/catalog/home.html"
     context_object_name = "product_items"
 
 
-class AboutProductPageTemplateView(TemplateView):
-    template_name = "../templates/catalog/show_product.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        param = {
-            "pk": self.kwargs["id"],
-        }
-        context["product_detail"] = get_product_by_param(param)
-        return context
+class AboutProductPageDetailView(DetailView):
+    model = Product
+    context_object_name = "product_detail"
+    pk_url_kwarg = "id"
 
 
 class ContactsPageView(View):
@@ -81,7 +73,7 @@ class AddProductPageView(View):
         try:
             param_save = {
                 "category": selected_category,
-                "name":name,
+                "name": name,
                 "description": description,
                 "price": price,
                 "image_preview": request.FILES.getlist("product_image")[0],
@@ -90,7 +82,7 @@ class AddProductPageView(View):
         except Exception as e:
             print(e)
         else:
-            return HttpResponseRedirect(reverse("ok"))
+            return HttpResponseRedirect(reverse_lazy("ok"))
 
         return render(request, self.template_name)
 
@@ -104,9 +96,8 @@ class AddProductPageView(View):
         return render(request, self.template_name, context)
 
 
-class BlogPage(TemplateView):
+class BlogPageListView(ListView):
     model = BlogArticle
-    template_name = "../templates/catalog/blog.html"
     context_object_name = "blog_posts"
 
 
