@@ -1,7 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
 
-from catalog.models import BlogArticle, Version
+from catalog.models import BlogArticle, Version, Product
 
 
 class BlogPostForm(forms.ModelForm):
