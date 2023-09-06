@@ -7,12 +7,22 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.text import slugify
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
-from catalog.forms import BlogPostForm
+from catalog.forms import BlogPostForm, VersionForm
 from catalog.models import Product, BlogArticle, Version
 from catalog.services.crud import (
-    save_feedback, get_contact_details, get_category_by_param, save_product, get_all_categories
+    save_feedback,
+    get_contact_details,
+    get_category_by_param,
+    save_product,
+    get_all_categories,
 )
 
 
@@ -70,6 +80,7 @@ class HomePageListView(ListView):
     """
     Homepage render.
     """
+
     model = Product
     context_object_name = "product_items"
 
@@ -79,7 +90,9 @@ class HomePageListView(ListView):
         """
         return Product.objects.annotate(
             version_name=Subquery(
-                Version.objects.filter(product=OuterRef('pk'), status=True).values('name')
+                Version.objects.filter(product=OuterRef("pk"), status=True).values(
+                    "name"
+                )
             ),
         )
 
@@ -108,10 +121,10 @@ class BlogPostPageDetailView(DetailView):
         obj.save()
         if obj.views_count == 100:
             send_mail(
-                'Поздравление',
-                'УРА! УРА! у вас более 100 просмотров!',
-                'wrusacc@yandex.ru',
-                ['zlukcss@gmail.com'],
+                "Поздравление",
+                "УРА! УРА! у вас более 100 просмотров!",
+                "wrusacc@yandex.ru",
+                ["zlukcss@gmail.com"],
                 fail_silently=False,
             )
         return obj
@@ -192,3 +205,9 @@ class AddProductPageView(View):
             "categories": get_all_categories(),
         }
         return render(request, self.template_name, context)
+
+
+class VersionCreateView(CreateView):
+    model = Version
+    form_class = VersionForm
+    success_url = reverse_lazy("ok")

@@ -33,4 +33,3 @@ def save_product(params: dict):
 
 def get_all_posts():
     return BlogArticle.objects.all()
-

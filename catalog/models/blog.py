@@ -13,7 +13,9 @@ class BlogArticle(models.Model):
         verbose_name="Изображение",
     )
     is_published = models.BooleanField(default=True, verbose_name="Опубликовано?")
-    views_count = models.PositiveIntegerField(default=0, verbose_name="Количество просмотров")
+    views_count = models.PositiveIntegerField(
+        default=0, verbose_name="Количество просмотров"
+    )
     create_at = models.DateTimeField(
         editable=False,
         auto_now_add=True,

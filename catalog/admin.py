@@ -31,7 +31,10 @@ class VersionAdmin(admin.ModelAdmin):
     """
     Отображение версии продукта
     """
-    list_display = ('id', 'product', 'number', 'name', 'status')
-    search_fields = ('product', )
-    list_filter = ('status', 'product',)
 
+    list_display = ("id", "product", "number", "name", "status")
+    search_fields = ("product",)
+    list_filter = (
+        "status",
+        "product",
+    )
