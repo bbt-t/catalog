@@ -10,3 +10,9 @@
 
     EMAIL_HOST_USER
     EMAIL_HOST_PASSWORD 
+
+> Для работы в без доступа к интернету необходимо:
+
+- скачать -> [bootstrap](https://getbootstrap.com/docs/5.2/getting-started/download/)
+- положить папки `css` и `js` в static
+- заменить (закомментировать или удалить) в base.html `CDN` на закомментированный код (static link)
