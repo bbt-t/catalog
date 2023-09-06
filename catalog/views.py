@@ -1,6 +1,7 @@
 from logging import warning as log
 
 from django.core.mail import send_mail
+from django.db.models import OuterRef, Subquery
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -8,7 +9,8 @@ from django.utils.text import slugify
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
-from catalog.models import Product, BlogArticle
+from catalog.forms import BlogPostForm
+from catalog.models import Product, BlogArticle, Version
 from catalog.services.crud import (
     save_feedback, get_contact_details, get_category_by_param, save_product, get_all_categories
 )
@@ -36,15 +38,16 @@ class BlogPostPageDeleteView(DeleteView):
 
 class BlogPostCreateView(CreateView):
     model = BlogArticle
-    fields = "title", "content", "image_preview", "is_published"
+    form_class = BlogPostForm
+    # fields = "title", "content", "image_preview", "is_published"
     success_url = reverse_lazy("ok")
 
-    def form_valid(self, form):
-        if form.is_valid():
-            new_entry = form.save()
-            new_entry.slug = slugify(new_entry.title)
-            new_entry.save()
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     if form.is_valid():
+    #         new_entry = form.save()
+    #         new_entry.slug = slugify(new_entry.title)
+    #         new_entry.save()
+    #     return super().form_valid(form)
 
 
 class BlogPostUpdateView(UpdateView):
@@ -69,6 +72,16 @@ class HomePageListView(ListView):
     """
     model = Product
     context_object_name = "product_items"
+
+    def get_queryset(self):
+        """
+        Добавляет поле version_name в каждый Product-объект.
+        """
+        return Product.objects.annotate(
+            version_name=Subquery(
+                Version.objects.filter(product=OuterRef('pk'), status=True).values('name')
+            ),
+        )
 
 
 class BlogPageListView(ListView):

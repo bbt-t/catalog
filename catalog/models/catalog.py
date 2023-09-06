@@ -65,3 +65,23 @@ class Product(models.Model):
         verbose_name = "Продукт"
         verbose_name_plural = "Продукты"
         ordering = ("price",)
+
+
+class Version(models.Model):
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Товар')
+    number = models.PositiveSmallIntegerField(verbose_name='Номер версии')
+    name = models.CharField(max_length=100, verbose_name='Название версии')
+    status = models.BooleanField(default=True, verbose_name='Активная версия')
+
+    def __str__(self):
+        return f"{self.name}: {self.number}, {self.status}"
+
+    def save(self, *args, **kwargs):
+        if self.status:
+            Version.objects.filter(product=self.product, status=True).update(status=False)
+        super().save(*args, **kwargs)
+
+    class Meta:
+        verbose_name = 'Версия'
+        verbose_name_plural = 'Версии'
+

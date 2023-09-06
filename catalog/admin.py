@@ -34,3 +34,4 @@ class VersionAdmin(admin.ModelAdmin):
     list_display = ('id', 'product', 'number', 'name', 'status')
     search_fields = ('product', )
     list_filter = ('status', 'product',)
+

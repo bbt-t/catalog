@@ -23,6 +23,9 @@
                             </div>
                             <small class="text-muted">{{ item.update_at }}</small>
                         </div>
+                        {% if item.version_name %}
+                            Версия: {{ item.version_name }}
+                        {% endif %}
                     </div>
 
                 </div>
